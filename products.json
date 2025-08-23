@@ -1,0 +1,29 @@
+{
+  "lace-lingerie-set": {
+    "name": "Lace Lingerie Set",
+    "description": "An elegant lace lingerie set designed for comfort and allure.",
+    "price": "$79.99",
+    "imageBase": "lace-lingerie-set",
+    "alt": "Black lace lingerie set with delicate straps",
+    "category": "lingerie-sets",
+    "inStock": true
+  },
+  "satin-corset": {
+    "name": "Satin Corset",
+    "description": "Luxurious red satin corset with lace-up back detail.",
+    "price": "$89.99",
+    "imageBase": "satin-corset",
+    "alt": "Red satin corset with lace-up detail",
+    "category": "corsets",
+    "inStock": true
+  },
+  "sheer-teddy": {
+    "name": "Sheer Teddy",
+    "description": "Delicate sheer teddy with lace trim and adjustable straps.",
+    "price": "$69.99",
+    "imageBase": "sheer-teddy",
+    "alt": "Black sheer teddy with lace trim",
+    "category": "teddies",
+    "inStock": false
+  }
+}

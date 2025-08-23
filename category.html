@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="page-title">Category</title>
+
+  <!-- ✅ Google Analytics (replace G-XXXXXXX with your GA4 ID) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXX');
+  </script>
+
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    header { text-align:center; font-size:3em; margin-bottom:20px; }
+    .filters { margin-bottom:20px; }
+    .product-row { display:flex; flex-wrap:wrap; gap:15px; }
+    .product { width:calc(33% - 10px); text-align:center; }
+    .product img { width:100%; height:auto; }
+    @media(max-width:600px){ .product{width:100%;} }
+  </style>
+</head>
+<body>
+
+<header id="category-title">Category</header>
+
+<!-- Filters -->
+<div class="filters">
+  <label>
+    Sort by:
+    <select id="sort">
+      <option value="name">Name</option>
+      <option value="price-low">Price: Low to High</option>
+      <option value="price-high">Price: High to Low</option>
+    </select>
+  </label>
+  <label>
+    <input type="checkbox" id="in-stock"> In Stock Only
+  </label>
+</div>
+
+<!-- Products -->
+<div class="product-row" id="category-products"></div>
+
+<script>
+  function getQueryParam(param){
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+  }
+
+  const categoryID = getQueryParam("cat");
+
+  fetch("products.json")
+    .then(res => res.json())
+    .then(products => {
+      const container = document.getElementById("category-products");
+      const title = document.getElementById("category-title");
+
+      let list = Object.keys(products)
+        .map(id => ({ id, ...products[id] }))
+        .filter(p => p.category === categoryID);
+
+      title.textContent = categoryID.replace("-", " ").toUpperCase();
+      document.title = title.textContent + " | L'art de la Séduction";
+
+      function render(){
+        container.innerHTML="";
+        let filtered = [...list];
+
+        // In Stock filter
+        if(document.getElementById("in-stock").checked){
+          filtered = filtered.filter(p=>p.inStock);
+        }
+
+        // Sorting
+        const sort = document.getElementById("sort").value;
+        if(sort==="name"){ filtered.sort((a,b)=>a.name.localeCompare(b.name)); }
+        if(sort==="price-low"){ filtered.sort((a,b)=>parseFloat(a.price.replace(/[^0-9.]/g,""))-parseFloat(b.price.replace(/[^0-9.]/g,""))); }
+        if(sort==="price-high"){ filtered.sort((a,b)=>parseFloat(b.price.replace(/[^0-9.]/g,""))-parseFloat(a.price.replace(/[^0-9.]/g,""))); }
+
+        // Render cards
+        filtered.forEach(p=>{
+          const div=document.createElement("div");
+          div.className="product";
+          div.innerHTML=`
+            <a href="product.html?id=${p.id}">
+              <picture>
+                <source srcset="images/${p.imageBase}.avif" type="image/avif">
+                <source srcset="images/${p.imageBase}.webp" type="image/webp">
+                <img src="images/${p.imageBase}.jpg" alt="${p.alt}" loading="lazy">
+              </picture>
+              <p>${p.name} - ${p.price}</p>
+            </a>`;
+          container.appendChild(div);
+        });
+      }
+
+      render();
+      document.getElementById("sort").addEventListener("change", render);
+      document.getElementById("in-stock").addEventListener("change", render);
+    });
+</script>
+
+</body>
+</html>
