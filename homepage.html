@@ -1,242 +1,7 @@
-<!-- force update test -->
- <html lang="en">
-<<<<<<< HEAD
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="L'art de la Séduction - Elegant and sexy lingerie and accessories.">
-    <title>L'art de la Séduction</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #fff;
-            color: #000;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            text-align: center;
-            margin-bottom: -15px;
-            font-size: 5em;
-            font-family: 'Brush Script MT', cursive;
-            position: relative;
-            color: black; /* text fill */
-            -webkit-text-stroke: 1px pink; /* pink outline */
-            text-stroke: 1px pink;
-            text-shadow: 
-                1px 0 pink, -1px 0 pink, 
-                0 1px pink, 0 -1px pink, 
-                1px 1px pink, -1px -1px pink, 
-                1px -1px pink, -1px 1px pink; /* fallback */
-        }
-        .icons-container {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            position: relative;
-            margin: 0 auto 5px;
-            height: 65px;
-        }
-        .shopping-bags {
-            width: 35px;
-            height: 35px;
-            font-size: 1.5em;
-            position: relative;
-            left: 560px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .shopping-bags span {
-            display: inline-block;
-            color: #f4a261;
-        }
-        .shopping-bags span:nth-child(2) {
-            position: absolute;
-            left: 8px;
-            color: #457b9d;
-        }
-        .shopping-bags span:nth-child(3) {
-            position: absolute;
-            right: 8px;
-            color: #e63946;
-        }
-        .dropdown-menu {
-            width: 65px;
-            height: 65px;
-            font-size: 2.2em;
-            color: pink;
-            position: relative;
-            left: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: rgba(255, 182, 193, 0.8);
-            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-            padding: 10px;
-            z-index: 1;
-            border-radius: 5px;
-        }
-        .dropdown-content a {
-            text-decoration: none;
-            display: block;
-            padding: 5px 0;
-            color: #000;
-        }
-        .dropdown-content a:hover {
-            background-color: #ffe4e1;
-        }
-        .dropdown-menu:hover .dropdown-content {
-            display: block;
-        }
-        .generic-image-row {
-            display: flex;
-            justify-content: space-between;
-            margin: 0;
-            padding: 0;
-            height: 400px;
-            overflow: hidden;
-        }
-        .generic-image {
-            flex: 1;
-        }
-        .generic-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .product-section {
-            padding: 20px;
-            text-align: center;
-        }
-        .product-row {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            margin: 10px 0;
-            padding: 0 10px;
-        }
-        .product {
-            margin: 10px;
-            width: calc(33.33% - 20px);
-            text-align: center;
-        }
-        .product img {
-            width: 100%;
-            border: none;
-        }
-        .footer {
-            text-align: center;
-            padding: 20px;
-            font-size: 0.9em;
-            background-color: #000;
-            color: #fff;
-        }
-        @media (max-width: 600px) {
-            .generic-image-row {
-                flex-direction: column;
-                height: auto;
-            }
-            .product {
-                width: 100%;
-                margin: 10px 0;
-            }
-        }
-    </style>
-</head>
-<body>
+<!-- L'art de la Séduction — homepage -->
 
-<header>
-    L'art de la Séduction
-</header>
-
-<!-- Icons Container -->
-<div class="icons-container">
-    <div class="dropdown-menu">
-        ☰
-        <div class="dropdown-content">
-            <a href="#">G-strings, thongs, crotchless lingerie</a>
-            <a href="#">Bras, open-cup bras, peep-hole bras, shelf bras</a>
-            <a href="#">Lingerie sets</a>
-            <a href="#">Corsets, baby dolls, camis, teddies</a>
-            <a href="#">Stockings, suspender belts, body stockings</a>
-            <a href="#">Latex & leather</a>
-            <a href="#">Leather & lace</a>
-            <a href="#">Sex toys</a>
-        </div>
-    </div>
-    <div class="shopping-bags">
-        <span>👜</span>
-        <span>🛍️</span>
-        <span>🎒</span>
-    </div>
-</div>
-
-<!-- Optimised Image Row -->
-<div class="generic-image-row">
-    <div class="generic-image">
-        <picture>
-            <source srcset="genericImage1.avif" type="image/avif">
-            <source srcset="genericImage1.webp" type="image/webp">
-            <img src="genericImage1.jpg" alt="Elegant lingerie showcase 1" loading="lazy" decoding="async" width="600" height="400">
-        </picture>
-    </div>
-    <div class="generic-image">
-        <picture>
-            <source srcset="genericImage2.avif" type="image/avif">
-            <source srcset="genericImage2.webp" type="image/webp">
-            <img src="genericImage2.jpg" alt="Elegant lingerie showcase 2" loading="lazy" decoding="async" width="600" height="400">
-        </picture>
-    </div>
-    <div class="generic-image">
-        <picture>
-            <source srcset="genericImage3.avif" type="image/avif">
-            <source srcset="genericImage3.webp" type="image/webp">
-            <img src="genericImage3.jpg" alt="Elegant lingerie showcase 3" loading="lazy" decoding="async" width="600" height="400">
-        </picture>
-    </div>
-</div>
-
-<!-- Optimised Product Section -->
-<div class="product-section">
-    <h2>New Arrivals</h2>
-    <div class="product-row">
-        <div class="product">
-            <picture>
-                <source srcset="newProduct1.avif" type="image/avif">
-                <source srcset="newProduct1.webp" type="image/webp">
-                <img src="newProduct1.jpg" alt="New Arrival: Lace lingerie set" loading="lazy" decoding="async" width="400" height="400">
-            </picture>
-        </div>
-        <div class="product">
-            <picture>
-                <source srcset="newProduct2.avif" type="image/avif">
-                <source srcset="newProduct2.webp" type="image/webp">
-                <img src="newProduct2.jpg" alt="New Arrival: Satin corset" loading="lazy" decoding="async" width="400" height="400">
-            </picture>
-        </div>
-        <div class="product">
-            <picture>
-                <source srcset="newProduct3.avif" type="image/avif">
-                <source srcset="newProduct3.webp" type="image/webp">
-                <img src="newProduct3.jpg" alt="New Arrival: Sheer teddy" loading="lazy" decoding="async" width="400" height="400">
-            </picture>
-        </div>
-    </div>
-</div>
-
-<div class="footer">
-    <p>Contact us: lartdelaseductionglobal@gmail.com</p>
-    <p>Enable gift certificates via a wrapped gift certificate category in the categories menu.</p>
-</div>
-
-</body>
-=======
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8" />
@@ -269,16 +34,6 @@
             }
         }
 
-        @keyframes fadeInImage {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
         header {
             text-align: center;
             font-size: clamp(2.5rem, 6vw, 5rem);
@@ -296,12 +51,10 @@
             font-family: 'Brush Script MT', cursive;
             font-size: clamp(1.5rem, 4vw, 2.5rem);
             color: var(--accent);
-            margin-bottom: .5rem;
-            opacity: 0;
             animation: fadeIn 1.2s 0.3s forwards;
         }
 
-        /* --- Email Subscribe --- */
+        /* Subscribe form */
         .subscribe {
             text-align: center;
             margin-bottom: 1.5rem;
@@ -310,16 +63,7 @@
         }
 
         .subscribe p {
-            color: #000;
-            font-size: 1rem;
             margin: .25rem 0 .5rem;
-        }
-
-        .subscribe form {
-            display: inline-flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: .5rem;
         }
 
         .subscribe input[type="email"] {
@@ -327,8 +71,6 @@
             border: 1px solid #aaa;
             border-radius: 4px;
             width: min(90%, 280px);
-            max-width: 280px;
-            font-size: 1rem;
         }
 
         .subscribe button {
@@ -338,8 +80,6 @@
             border-radius: 4px;
             padding: 8px 14px;
             cursor: pointer;
-            font-family: inherit;
-            font-size: 1rem;
             transition: background-color .3s;
         }
 
@@ -347,13 +87,7 @@
             background-color: #b91554;
         }
 
-        .subscribe .note {
-            font-size: .85rem;
-            color: #444;
-            margin-top: .4rem;
-        }
-
-        /* --- Icons bar --- */
+        /* Icons Bar */
         .icons-container {
             display: flex;
             justify-content: space-between;
@@ -382,9 +116,9 @@
             background-color: rgba(255, 182, 193, 0.9);
             box-shadow: 0 8px 16px rgba(0, 0, 0, .2);
             padding: 10px;
-            z-index: 100;
             border-radius: 5px;
             backdrop-filter: blur(6px);
+            z-index: 10;
         }
 
         .dropdown-content a {
@@ -410,7 +144,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
         }
 
         .shopping-bags span:nth-child(1) {
@@ -427,7 +160,7 @@
             transform: translateX(14px);
         }
 
-        /* --- Hero Carousel --- */
+        /* Hero (top) slideshow */
         .hero-carousel {
             position: relative;
             height: min(450px, 70vh);
@@ -455,7 +188,7 @@
             display: block;
         }
 
-        /* --- Carousel (New Arrivals) --- */
+        /* Product Carousel (New Arrivals) */
         .section-heading {
             text-align: center;
             font-family: 'Brush Script MT', cursive;
@@ -498,7 +231,6 @@
             cursor: pointer;
             padding: .4rem .8rem;
             border-radius: 4px;
-            z-index: 5;
             transition: background .3s;
         }
 
@@ -514,44 +246,12 @@
             background: rgba(0, 0, 0, 0.7);
         }
 
-        /* --- Lightbox --- */
-        .lightbox {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            animation: fadeIn .5s both;
-        }
-
-        .lightbox img {
-            max-width: 90%;
-            max-height: 85%;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(255, 255, 255, .3);
-        }
-
-        .lightbox .close {
-            position: absolute;
-            top: 20px;
-            right: 35px;
-            color: #fff;
-            font-size: 2.5rem;
-            cursor: pointer;
-        }
-
         footer {
             background: #000;
             color: #fff;
             text-align: center;
             padding: 20px;
             font-size: .9rem;
-            letter-spacing: .03em;
         }
 
         @media(max-width:900px) {
@@ -565,16 +265,12 @@
         }
 
         @media(max-width:600px) {
-            .icons-container {
-                margin: 0 1rem;
-            }
-
             .carousel-item {
                 flex: 0 0 100%;
             }
 
             .carousel-item img {
-                height: 280px;
+                height: 260px;
             }
         }
     </style>
@@ -584,17 +280,17 @@
     <header>L'art de la Séduction</header>
     <div class="tagline">Coming Soon</div>
 
-    <!-- ✉️ Email sign‑up -->
+    <!-- Subscribe -->
     <div class="subscribe">
-        <p>Click below to receive updates 🖤</p>
+        <p>Click below to receive updates 🖤</p>
         <form id="subscribe-form" action="https://formspree.io/f/your_form_id" method="POST">
-            <input type="email" name="email" placeholder="Enter your email address" required>
+            <input type="email" name="email" placeholder="Enter your email address" required>
             <button type="submit">Notify Me</button>
         </form>
-        <p class="note">You’ll receive an email when we launch new collections.</p>
+        <p class="note">You’ll receive an email when we launch new collections.</p>
     </div>
 
-    <!-- Icons Bar -->
+    <!-- Icons -->
     <div class="icons-container">
         <div class="dropdown-menu">☰
             <div class="dropdown-content">
@@ -610,14 +306,14 @@
         <div class="shopping-bags"><span>👜</span><span>🛍️</span><span>🎒</span></div>
     </div>
 
-    <!-- 🌸 Hero Slideshow (auto‑sliding top images) -->
+    <!-- Hero Slideshow -->
     <div class="hero-carousel" id="hero-carousel">
         <div class="hero-slide active"><img src="images/Screenshot 1.png" alt="Showcase 1" /></div>
         <div class="hero-slide"><img src="images/Screenshot 2.png" alt="Showcase 2" /></div>
         <div class="hero-slide"><img src="images/Screenshot 3.png" alt="Showcase 3" /></div>
     </div>
 
-    <!-- 🎠 New Arrivals Carousel -->
+    <!-- New Arrivals Carousel -->
     <h2 class="section-heading">New Arrivals</h2>
     <div class="carousel-container" id="arrivals-carousel">
         <div class="carousel-track">
@@ -635,83 +331,73 @@
         <button class="carousel-btn carousel-next">&#10095;</button>
     </div>
 
-    <!-- Lightbox -->
-    <div id="lightbox" class="lightbox">
-        <span class="close">&times;</span>
-        <img id="lightbox-img" src="" alt="Expanded view">
-    </div>
-
     <footer>
         <p>Contact us: lartdelaseductionglobal@gmail.com</p>
         <p>Enable gift certificates via the categories menu.</p>
     </footer>
 
     <script>
-        // 🖼️ Lightbox
-        const lightbox = document.getElementById("lightbox");
-        const lightboxImg = document.getElementById("lightbox-img");
-        const closeBtn = document.querySelector(".lightbox .close");
-        document.querySelectorAll("img").forEach(img => {
-            img.addEventListener("click", () => {
-                lightbox.style.display = "flex";
+        /* Lightbox */
+        const lightbox = document.createElement('div');
+        lightbox.className = 'lightbox';
+        lightbox.innerHTML = '<span class="close">&times;</span><img id="lightbox-img" alt="">';
+        document.body.appendChild(lightbox);
+        const lightboxImg = lightbox.querySelector('#lightbox-img');
+        document.querySelectorAll('img').forEach(img => {
+            img.addEventListener('click', () => {
+                lightbox.style.display = 'flex';
                 lightboxImg.src = img.src;
             });
         });
-        closeBtn.onclick = () => lightbox.style.display = "none";
-        lightbox.onclick = e => { if (e.target === lightbox) lightbox.style.display = "none"; };
-        document.onkeydown = e => { if (e.key === "Escape") lightbox.style.display = "none"; };
+        lightbox.querySelector('.close').onclick = () => lightbox.style.display = 'none';
+        lightbox.onclick = e => { if (e.target === lightbox) lightbox.style.display = 'none'; };
+        document.onkeydown = e => { if (e.key === 'Escape') lightbox.style.display = 'none'; };
 
-        // 🎞️ Hero auto‑slideshow
+        /* Hero (auto‑slideshow) */
         (function heroCarousel() {
-            const slides = document.querySelectorAll("#hero-carousel .hero-slide");
-            let current = 0, interval;
+            const slides = document.querySelectorAll('#hero-carousel .hero-slide');
+            let current = 0;
             function showSlide(n) {
-                slides.forEach((s, i) => s.classList.toggle("active", i === n));
+                slides.forEach((s, i) => s.classList.toggle('active', i === n));
             }
-            function nextSlide() {
+            setInterval(() => {
                 current = (current + 1) % slides.length;
                 showSlide(current);
-            }
-            interval = setInterval(nextSlide, 5000);
-            const container = document.getElementById("hero-carousel");
-            container.addEventListener("mouseenter", () => clearInterval(interval));
-            container.addEventListener("mouseleave", () => interval = setInterval(nextSlide, 5000));
+            }, 5000);
         })();
 
-        // 🎠 New Arrivals carousel
+        /* Product Carousel (manual + auto) */
         (function initCarousel(id) {
             const container = document.getElementById(id),
-                track = container.querySelector(".carousel-track"),
-                slides = container.querySelectorAll(".carousel-item"),
-                prevBtn = container.querySelector(".carousel-prev"),
-                nextBtn = container.querySelector(".carousel-next");
-            let index = 0, slidesPerView = 3;
-            function calcSlidesPerView() {
-                if (window.innerWidth <= 600) slidesPerView = 1;
-                else if (window.innerWidth <= 900) slidesPerView = 2;
-                else slidesPerView = 3;
+                track = container.querySelector('.carousel-track'),
+                slides = container.querySelectorAll('.carousel-item'),
+                prev = container.querySelector('.carousel-prev'),
+                next = container.querySelector('.carousel-next');
+            let index = 0, perView = 3;
+
+            function calc() {
+                if (window.innerWidth <= 600) perView = 1;
+                else if (window.innerWidth <= 900) perView = 2;
+                else perView = 3;
             }
-            function updateCarousel() {
-                const shift = index * (100 / slidesPerView);
+            function update() {
+                const shift = index * (100 / perView);
                 track.style.transform = `translateX(-${shift}%)`;
             }
-            function next() {
-                index++;
-                if (index > slides.length - slidesPerView) index = 0;
-                updateCarousel();
+            function slideNext() {
+                index = (index + 1) % (slides.length - perView + 1);
+                update();
             }
-            function prev() {
-                index--;
-                if (index < 0) index = slides.length - slidesPerView;
-                updateCarousel();
+            function slidePrev() {
+                index = (index - 1 + slides.length - perView + 1) % (slides.length - perView + 1);
+                update();
             }
-            nextBtn.onclick = next; prevBtn.onclick = prev;
-            setInterval(next, 5000);
-            window.addEventListener("resize", () => { calcSlidesPerView(); updateCarousel(); });
-            calcSlidesPerView();
-        })("arrivals-carousel");
+            calc(); update();
+            next.onclick = slideNext; prev.onclick = slidePrev;
+            setInterval(slideNext, 5000);
+            window.addEventListener('resize', () => { calc(); update(); });
+        })('arrivals-carousel');
     </script>
 </body>
 
->>>>>>> 1a77c62 (Add _redirects file for Cloudflare Pages)
 </html>
