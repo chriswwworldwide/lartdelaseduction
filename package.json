@@ -1,7 +1,7 @@
 {
   "name": "l'art-de-la-seduction",
   "version": "1.0.0",
- "type": "module",
+  "type": "module",
   "description": "",
   "main": "autoAnimateAndPost.js",
   "dependencies": {
