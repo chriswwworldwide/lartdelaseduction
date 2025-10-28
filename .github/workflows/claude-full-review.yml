@@ -1,7 +1,7 @@
 name: Claude Full Repository Review
 
 on:
-  workflow_dispatch:   # run manually from the Actions tab
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -9,7 +9,6 @@ permissions:
 jobs:
   full_review:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -21,46 +20,18 @@ jobs:
 
       - name: Summarize repository contents
         run: |
-          echo "🗂️ Repository structure (depth 3):" > repo_summary.txt
-          tree -L 3 -I '.git|node_modules|venv|__pycache__|dist|build' >> repo_summary.txt
-          echo "" >> repo_summary.txt
-          echo "Total tracked files:" $(git ls-files | wc -l) >> repo_summary.txt
+          echo "### Repository structure (depth: 3)" > repo_summary.txt
+          tree -L 3 -I 'node_modules|venv|.git|dist|build|__pycache__' >> repo_summary.txt
 
-      - name: Collect representative code snippets
+      - name: Generate metadata JSON
         run: |
-          echo "Collecting representative snippets..." > snippets.txt
-          git ls-files '*.*' | grep -vE '\.(png|jpg|jpeg|gif|svg|mp4|zip|lock|env|ico)$' | head -20 | while read FILE; do
-            echo "---- $FILE ----" >> snippets.txt
-            head -n 80 "$FILE" >> snippets.txt
-            echo "" >> snippets.txt
-          done
+          jq -n --arg date "$(date)" --arg repo "$GITHUB_REPOSITORY" \
+          '{repository: $repo, generated_at: $date}' > metadata.json
 
-      - name: Request full architecture review from Claude
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: |
-          SUMMARY=$(cat repo_summary.txt | sed 's/"/\\"/g')
-          SNIPPETS=$(cat snippets.txt | sed 's/"/\\"/g')
-
-          echo "Requesting full repository architecture review..."
-          RESPONSE=$(curl -s https://api.anthropic.com/v1/messages \
-            -H "x-api-key: $ANTHROPIC_API_KEY" \
-            -H "content-type: application/json" \
-            -d "{
-                  \"model\": \"claude-3-5-sonnet-latest\",
-                  \"max_tokens\": 2000,
-                  \"messages\": [
-                    {\"role\": \"user\", \"content\": \"You're reviewing a web‑project repository.  Using the structure and sample code below, please: (1) summarize the site's purpose, (2) describe the main functional areas, and (3) propose an optimized file/folder architecture detailing how to organize scripts, assets, components, pages, and APIs for scalability and clarity.\\n\\nRepository structure:\\n$SUMMARY\\n\\nRepresentative source snippets:\\n$SNIPPETS\"}
-                  ]
-                }" | jq -r '.content[0].text')
-
-          echo "$RESPONSE" > architecture_review.txt
-          echo "-------------------------------------------"
-          echo "$RESPONSE"
-          echo "-------------------------------------------"
-
-      - name: Upload architecture review artifact
+      - name: Upload review artifact
         uses: actions/upload-artifact@v4
         with:
           name: Claude-Architecture-Review
-          path: architecture_review.txt
+          path: |
+            repo_summary.txt
+            metadata.json
