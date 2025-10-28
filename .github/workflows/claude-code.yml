@@ -1,4 +1,4 @@
-name: Claude Code Review
+name: Claude Code Review (Direct API)
 
 on:
   pull_request:
@@ -12,10 +12,36 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Claude Code Review
-        # ✅ Official Anthropic Claude Code Action from the GitHub Marketplace
-        uses: anthropic/claude-code-action-official@v1
-        with:
-          mode: review        # You can change: review | suggest | summarize
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+      - name: Install jq JSON parser
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Run Claude code review through API
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          echo "🔍 Gathering changed files..."
+          FILES=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }})
+          echo "Files changed:"
+          echo "$FILES"
+
+          echo ""
+          echo "🧠 Sending files to Claude for review..."
+          for FILE in $FILES; do
+            # Limit each file content to 12k chars to fit Claude context
+            CONTENT=$(head -c 12000 "$FILE" | sed 's/"/\\"/g')
+            echo "Reviewing $FILE ..."
+            RESPONSE=$(curl -s https://api.anthropic.com/v1/messages \
+              -H "x-api-key: $ANTHROPIC_API_KEY" \
+              -H "content-type: application/json" \
+              -d "{
+                    \"model\": \"claude-3-5-sonnet-latest\",
+                    \"max_tokens\": 400,
+                    \"messages\": [
+                      {\"role\": \"user\", \"content\": \"Please review this file for potential improvements or issues. Filename: $FILE\n\n$CONTENT\"}
+                    ]
+                  }" | jq -r '.content[0].text')
+            echo ""
+            echo "💬 Claude's feedback for $FILE:"
+            echo "$RESPONSE"
+            echo "-----------------------------------------------"
+          done
