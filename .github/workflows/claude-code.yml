@@ -1,11 +1,10 @@
-name: Claude Code Review (Direct API)
+name: Claude Full Repository Review
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
+  workflow_dispatch:  # 👈 manual trigger from Actions tab
 
 jobs:
-  review:
+  full_review:
     runs-on: ubuntu-latest
 
     steps:
@@ -15,41 +14,46 @@ jobs:
           fetch-depth: 0
 
       - name: Install jq JSON parser
-        run: sudo apt-get update && sudo apt-get install -y jq
+        run: sudo apt-get update && sudo apt-get install -y jq tree
 
-      - name: Run Claude code review through API
-        id: claude
+      - name: Create file tree summary
+        run: |
+          echo "🗂️ Repository structure:" > repo_summary.txt
+          tree -L 3 -I '.git|node_modules|venv|__pycache__' >> repo_summary.txt
+          echo "" >> repo_summary.txt
+          echo "Total files:" $(git ls-files | wc -l) >> repo_summary.txt
+
+      - name: Run full Claude architecture review
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
-          echo "🔍 Gathering changed files..."
-          FILES=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }})
-          echo "Files changed:"
-          echo "$FILES"
+          # Gather a compact combined code sample (avoid sending huge binaries)
+          echo "Gathering representative snippets..."
+          head -n 200 $(git ls-files '*.*' | grep -vE '\.(png|jpg|jpeg|gif|zip|lock|env)$' | head -20) > sample_snippets.txt
 
-          echo "" > review_output.txt
-          for FILE in $FILES; do
-            CONTENT=$(head -c 12000 "$FILE" | sed 's/"/\\"/g')
-            echo "Reviewing $FILE ..."
-            RESPONSE=$(curl -s https://api.anthropic.com/v1/messages \
-              -H "x-api-key: $ANTHROPIC_API_KEY" \
-              -H "content-type: application/json" \
-              -d "{
-                    \"model\": \"claude-3-5-sonnet-latest\",
-                    \"max_tokens\": 400,
-                    \"messages\": [
-                      {\"role\": \"user\", \"content\": \"Please review this file for potential improvements or issues. Filename: $FILE\\n\\n$CONTENT\"}
-                    ]
-                  }" | jq -r '.content[0].text')
-            echo "### 💬 Feedback for $FILE" >> review_output.txt
-            echo "$RESPONSE" >> review_output.txt
-            echo "" >> review_output.txt
-          done
+          SUMMARY=$(cat repo_summary.txt | sed 's/"/\\"/g')
+          SNIPPET=$(cat sample_snippets.txt | sed 's/"/\\"/g')
 
-      - name: 🗨️ Post Claude feedback as PR comment
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          COMMENT_BODY=$(cat review_output.txt)
-          gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments \
-            -f body="$COMMENT_BODY"
+          echo "Requesting Claude architecture review..."
+          RESPONSE=$(curl -s https://api.anthropic.com/v1/messages \
+            -H "x-api-key: $ANTHROPIC_API_KEY" \
+            -H "content-type: application/json" \
+            -d "{
+                  \"model\": \"claude-3-5-sonnet-latest\",
+                  \"max_tokens\": 1500,
+                  \"messages\": [
+                    {\"role\": \"user\", \"content\": \"Here is the repository structure and representative file content. Please analyze the whole project’s organization and propose a clean, scalable file/folder architecture with explanations for where each file should live.\\n\\n$SUMMARY\\n\\nRepresentative code snippets:\\n$SNIPPET\"}
+                  ]
+                }" | jq -r '.content[0].text')
+
+          echo "AI Architectural Review ---------------------------------------"
+          echo "$RESPONSE"
+          echo "--------------------------------------------------------------"
+
+          echo "$RESPONSE" > architecture_review.txt
+
+      - name: Upload review artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Claude-Architecture-Review
+          path: architecture_review.txt
