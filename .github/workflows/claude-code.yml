@@ -12,12 +12,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Fetch full history to avoid "bad object" errors
+          fetch-depth: 0
 
       - name: Install jq JSON parser
         run: sudo apt-get update && sudo apt-get install -y jq
 
       - name: Run Claude code review through API
+        id: claude
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
@@ -26,8 +27,7 @@ jobs:
           echo "Files changed:"
           echo "$FILES"
 
-          echo ""
-          echo "🧠 Sending files to Claude for review..."
+          echo "" > review_output.txt
           for FILE in $FILES; do
             CONTENT=$(head -c 12000 "$FILE" | sed 's/"/\\"/g')
             echo "Reviewing $FILE ..."
@@ -41,8 +41,15 @@ jobs:
                       {\"role\": \"user\", \"content\": \"Please review this file for potential improvements or issues. Filename: $FILE\\n\\n$CONTENT\"}
                     ]
                   }" | jq -r '.content[0].text')
-            echo ""
-            echo "💬 Claude's feedback for $FILE:"
-            echo "$RESPONSE"
-            echo "-----------------------------------------------"
+            echo "### 💬 Feedback for $FILE" >> review_output.txt
+            echo "$RESPONSE" >> review_output.txt
+            echo "" >> review_output.txt
           done
+
+      - name: 🗨️ Post Claude feedback as PR comment
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          COMMENT_BODY=$(cat review_output.txt)
+          gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments \
+            -f body="$COMMENT_BODY"
