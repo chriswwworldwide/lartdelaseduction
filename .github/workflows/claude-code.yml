@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch full history to avoid "bad object" errors
 
       - name: Install jq JSON parser
         run: sudo apt-get update && sudo apt-get install -y jq
@@ -27,7 +29,6 @@ jobs:
           echo ""
           echo "🧠 Sending files to Claude for review..."
           for FILE in $FILES; do
-            # Limit each file content to 12k chars to fit Claude context
             CONTENT=$(head -c 12000 "$FILE" | sed 's/"/\\"/g')
             echo "Reviewing $FILE ..."
             RESPONSE=$(curl -s https://api.anthropic.com/v1/messages \
@@ -37,7 +38,7 @@ jobs:
                     \"model\": \"claude-3-5-sonnet-latest\",
                     \"max_tokens\": 400,
                     \"messages\": [
-                      {\"role\": \"user\", \"content\": \"Please review this file for potential improvements or issues. Filename: $FILE\n\n$CONTENT\"}
+                      {\"role\": \"user\", \"content\": \"Please review this file for potential improvements or issues. Filename: $FILE\\n\\n$CONTENT\"}
                     ]
                   }" | jq -r '.content[0].text')
             echo ""
