@@ -7,14 +7,15 @@ on:
 jobs:
   review:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run Claude Code Review
-        uses: nicholaslee119/claude-code-github-integration@v0.1.1
+      - name: Claude Code Review
+        # ✅ Official Anthropic Claude Code Action from the GitHub Marketplace
+        uses: anthropic/claude-code-action-official@v1
         with:
-          operation_mode: review
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          mode: review        # You can change: review | suggest | summarize
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
