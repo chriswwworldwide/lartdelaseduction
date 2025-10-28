@@ -1,7 +1,7 @@
 name: Claude Full Repository Review
 
 on:
-  workflow_dispatch:   # Manual launch from Actions tab
+  workflow_dispatch:   # run manually from the Actions tab
 
 permissions:
   contents: read
@@ -16,17 +16,17 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install tools
+      - name: Install system tools
         run: sudo apt-get update && sudo apt-get install -y jq tree
 
-      - name: Create repository summary
+      - name: Summarize repository contents
         run: |
-          echo "🗂️ Repository tree (depth 3):" > repo_summary.txt
+          echo "🗂️ Repository structure (depth 3):" > repo_summary.txt
           tree -L 3 -I '.git|node_modules|venv|__pycache__|dist|build' >> repo_summary.txt
           echo "" >> repo_summary.txt
           echo "Total tracked files:" $(git ls-files | wc -l) >> repo_summary.txt
 
-      - name: Gather representative code snippets
+      - name: Collect representative code snippets
         run: |
           echo "Collecting representative snippets..." > snippets.txt
           git ls-files '*.*' | grep -vE '\.(png|jpg|jpeg|gif|svg|mp4|zip|lock|env|ico)$' | head -20 | while read FILE; do
@@ -35,7 +35,7 @@ jobs:
             echo "" >> snippets.txt
           done
 
-      - name: Ask Claude for architecture review
+      - name: Request full architecture review from Claude
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
@@ -50,7 +50,7 @@ jobs:
                   \"model\": \"claude-3-5-sonnet-latest\",
                   \"max_tokens\": 2000,
                   \"messages\": [
-                    {\"role\": \"user\", \"content\": \"Here is an overview of the entire repository’s structure and representative code snippets. Please analyze this project and produce:\\n\\n1. A high-level understanding of the website’s purpose.\\n2. A recommended folder/file architecture for better scalability, readability, and maintainability.\\n3. Specific folder groupings (e.g., components, assets, pages, utilities, styles, API endpoints).\\n4. Any suggested naming conventions or reorganization steps.\\n\\nRepository structure:\\n$SUMMARY\\n\\nRepresentative source snippets:\\n$SNIPPETS\"}
+                    {\"role\": \"user\", \"content\": \"You're reviewing a web‑project repository.  Using the structure and sample code below, please: (1) summarize the site's purpose, (2) describe the main functional areas, and (3) propose an optimized file/folder architecture detailing how to organize scripts, assets, components, pages, and APIs for scalability and clarity.\\n\\nRepository structure:\\n$SUMMARY\\n\\nRepresentative source snippets:\\n$SNIPPETS\"}
                   ]
                 }" | jq -r '.content[0].text')
 
