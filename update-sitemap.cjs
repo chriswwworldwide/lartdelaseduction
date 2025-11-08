@@ -11,7 +11,7 @@ try {
 
   const updated = xml.replace(
     /<lastmod>.*?<\/lastmod>/g,
-    `<lastmod>${now}</lastmod>`
+    `<lastmod>${now}</lastmod>`,
   );
 
   fs.writeFileSync(sitemapPath, updated, "utf8");

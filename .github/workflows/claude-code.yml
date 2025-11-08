@@ -18,7 +18,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # ensure full history for git diff
+          fetch-depth: 0 # ensure full history for git diff
 
       - name: Install jq JSON parser
         run: sudo apt-get update && sudo apt-get install -y jq

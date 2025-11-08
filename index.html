@@ -1,135 +1,229 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="L'art de la Séduction - Elegant and sexy lingerie and accessories.">
-  <title>L'art de la Séduction</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="L'art de la Séduction - Elegant and sexy lingerie and accessories."
+    />
+    <title>L'art de la Séduction</title>
 
-  <!-- ✅ Google Analytics (replace G-XXXXXXX with your GA4 ID) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){ dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-XXXXXXX');
-  </script>
+    <!-- ✅ Google Analytics (replace G-XXXXXXX with your GA4 ID) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-XXXXXXX");
+    </script>
 
-  <style>
-    body { font-family: Arial, sans-serif; margin:0; padding:0; background:#fff; }
-    header { text-align:center; font-size:5em; font-family:'Brush Script MT', cursive; color:black; -webkit-text-stroke:0.5px pink; text-shadow:0.5px 0 pink,-0.5px 0 pink,0 0.5px pink,0 -0.5px pink; }
-    .icons-container { display:flex; justify-content:space-between; align-items:center; padding:10px; }
-    .search-bar { flex:1; text-align:center; }
-    .search-bar input { width:60%; padding:8px; font-size:1em; }
-    .generic-image-row, .product-row { display:flex; flex-wrap:wrap; justify-content:space-between; }
-    .generic-image, .product { flex:1; margin:5px; text-align:center; }
-    .product img, .generic-image img { width:100%; height:auto; border:none; }
-    .footer { text-align:center; background:#000; color:#fff; padding:20px; }
-    .footer form { margin-top:15px; }
-    .footer input[type="email"] { padding:8px; width:60%; max-width:300px; }
-    .footer button { padding:8px 16px; margin-left:5px; cursor:pointer; }
-    @media(max-width:600px){ header{font-size:3em;} .search-bar input{width:90%;} .generic-image-row,.product-row{flex-direction:column;} }
-  </style>
-</head>
-<body>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #fff;
+      }
+      header {
+        text-align: center;
+        font-size: 5em;
+        font-family: "Brush Script MT", cursive;
+        color: black;
+        -webkit-text-stroke: 0.5px pink;
+        text-shadow:
+          0.5px 0 pink,
+          -0.5px 0 pink,
+          0 0.5px pink,
+          0 -0.5px pink;
+      }
+      .icons-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+      }
+      .search-bar {
+        flex: 1;
+        text-align: center;
+      }
+      .search-bar input {
+        width: 60%;
+        padding: 8px;
+        font-size: 1em;
+      }
+      .generic-image-row,
+      .product-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+      .generic-image,
+      .product {
+        flex: 1;
+        margin: 5px;
+        text-align: center;
+      }
+      .product img,
+      .generic-image img {
+        width: 100%;
+        height: auto;
+        border: none;
+      }
+      .footer {
+        text-align: center;
+        background: #000;
+        color: #fff;
+        padding: 20px;
+      }
+      .footer form {
+        margin-top: 15px;
+      }
+      .footer input[type="email"] {
+        padding: 8px;
+        width: 60%;
+        max-width: 300px;
+      }
+      .footer button {
+        padding: 8px 16px;
+        margin-left: 5px;
+        cursor: pointer;
+      }
+      @media (max-width: 600px) {
+        header {
+          font-size: 3em;
+        }
+        .search-bar input {
+          width: 90%;
+        }
+        .generic-image-row,
+        .product-row {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>L'art de la Séduction</header>
 
-<header>
-  L'art de la Séduction
-</header>
+    <!-- Icons + Search -->
+    <div class="icons-container">
+      <div class="dropdown-menu" aria-label="Main menu">☰</div>
+      <div class="search-bar">
+        <input
+          type="text"
+          id="search"
+          placeholder="Search products..."
+          aria-label="Search products"
+        />
+      </div>
+      <div class="shopping-bags" aria-label="Shopping bags">👜 🛍️ 🎒</div>
+    </div>
 
-<!-- Icons + Search -->
-<div class="icons-container">
-  <div class="dropdown-menu" aria-label="Main menu">☰</div>
-  <div class="search-bar">
-    <input type="text" id="search" placeholder="Search products..." aria-label="Search products">
-  </div>
-  <div class="shopping-bags" aria-label="Shopping bags">👜 🛍️ 🎒</div>
-</div>
+    <!-- Dynamic Banner Images -->
+    <div class="generic-image-row" id="banner-row"></div>
 
-<!-- Dynamic Banner Images -->
-<div class="generic-image-row" id="banner-row"></div>
+    <!-- Automated Sections -->
+    <div class="product-section">
+      <h2>New Arrivals</h2>
+      <div class="product-row" id="new-arrivals"></div>
+    </div>
 
-<!-- Automated Sections -->
-<div class="product-section">
-  <h2>New Arrivals</h2>
-  <div class="product-row" id="new-arrivals"></div>
-</div>
+    <div class="product-section">
+      <h2>Featured Products</h2>
+      <div class="product-row" id="featured-products"></div>
+    </div>
 
-<div class="product-section">
-  <h2>Featured Products</h2>
-  <div class="product-row" id="featured-products"></div>
-</div>
+    <div class="product-section">
+      <h2>Best Sellers</h2>
+      <div class="product-row" id="best-sellers"></div>
+    </div>
 
-<div class="product-section">
-  <h2>Best Sellers</h2>
-  <div class="product-row" id="best-sellers"></div>
-</div>
+    <div class="product-section">
+      <h2>Wishlist</h2>
+      <div class="product-row" id="wishlist"></div>
+    </div>
 
-<div class="product-section">
-  <h2>Wishlist</h2>
-  <div class="product-row" id="wishlist"></div>
-</div>
+    <div class="product-section">
+      <h2>Recently Viewed</h2>
+      <div class="product-row" id="recently-viewed"></div>
+    </div>
 
-<div class="product-section">
-  <h2>Recently Viewed</h2>
-  <div class="product-row" id="recently-viewed"></div>
-</div>
+    <!-- Footer with Newsletter Signup -->
+    <div class="footer">
+      <p>Contact us: lartdelaseductionglobal@gmail.com</p>
+      <form id="newsletter-form">
+        <label for="newsletter-email">Subscribe to our newsletter:</label><br />
+        <input
+          type="email"
+          id="newsletter-email"
+          placeholder="Enter your email"
+          required
+        />
+        <button type="submit">Subscribe</button>
+      </form>
+      <p>
+        <a href="privacy.html">Privacy Policy</a> |
+        <a href="terms.html">Terms &amp; Conditions</a>
+      </p>
+    </div>
 
-<!-- Footer with Newsletter Signup -->
-<div class="footer">
-  <p>Contact us: lartdelaseductionglobal@gmail.com</p>
-  <form id="newsletter-form">
-    <label for="newsletter-email">Subscribe to our newsletter:</label><br>
-    <input type="email" id="newsletter-email" placeholder="Enter your email" required>
-    <button type="submit">Subscribe</button>
-  </form>
-  <p><a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms &amp; Conditions</a></p>
-</div>
+    <script>
+      // Newsletter signup (localStorage demo)
+      document
+        .getElementById("newsletter-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const email = document.getElementById("newsletter-email").value;
+          if (email) {
+            let list = JSON.parse(localStorage.getItem("newsletter")) || [];
+            list.push(email);
+            localStorage.setItem("newsletter", JSON.stringify(list));
+            alert("Thank you for subscribing!");
+            this.reset();
+          }
+        });
 
-<script>
-  // Newsletter signup (localStorage demo)
-  document.getElementById("newsletter-form").addEventListener("submit", function(e){
-    e.preventDefault();
-    const email = document.getElementById("newsletter-email").value;
-    if(email){
-      let list = JSON.parse(localStorage.getItem("newsletter")) || [];
-      list.push(email);
-      localStorage.setItem("newsletter", JSON.stringify(list));
-      alert("Thank you for subscribing!");
-      this.reset();
-    }
-  });
+      // Example: fetch products.json and render homepage sections
+      fetch("products.json")
+        .then((res) => res.json())
+        .then((products) => {
+          const bannerRow = document.getElementById("banner-row");
+          const arrivals = document.getElementById("new-arrivals");
 
-  // Example: fetch products.json and render homepage sections
-  fetch("products.json")
-    .then(res => res.json())
-    .then(products => {
-      const bannerRow = document.getElementById("banner-row");
-      const arrivals = document.getElementById("new-arrivals");
+          const banners = ["lace-lingerie-set", "satin-corset", "sheer-teddy"];
+          const newArrivals = [
+            "lace-lingerie-set",
+            "satin-corset",
+            "sheer-teddy",
+          ];
 
-      const banners = ["lace-lingerie-set","satin-corset","sheer-teddy"];
-      const newArrivals = ["lace-lingerie-set","satin-corset","sheer-teddy"];
-
-      function renderProduct(id, target, large=false){
-        const p = products[id]; if(!p) return;
-        const div = document.createElement("div");
-        div.className = large?"generic-image":"product";
-        div.innerHTML = `
+          function renderProduct(id, target, large = false) {
+            const p = products[id];
+            if (!p) return;
+            const div = document.createElement("div");
+            div.className = large ? "generic-image" : "product";
+            div.innerHTML = `
           <a href="product.html?id=${id}">
             <picture>
               <source srcset="images/${p.imageBase}.avif" type="image/avif">
               <source srcset="images/${p.imageBase}.webp" type="image/webp">
-              <img src="images/${p.imageBase}.jpg" alt="${p.alt}" loading="lazy" decoding="async" width="${large?600:400}" height="${large?400:400}">
+              <img src="images/${p.imageBase}.jpg" alt="${p.alt}" loading="lazy" decoding="async" width="${large ? 600 : 400}" height="${large ? 400 : 400}">
             </picture>
-            ${!large?`<p>${p.name} - ${p.price}</p>`:""}
+            ${!large ? `<p>${p.name} - ${p.price}</p>` : ""}
           </a>`;
-        target.appendChild(div);
-      }
+            target.appendChild(div);
+          }
 
-      banners.forEach(id=>renderProduct(id,bannerRow,true));
-      newArrivals.forEach(id=>renderProduct(id,arrivals));
-    });
-</script>
-<!-- Trigger Claude workflow test -->
-</body>
+          banners.forEach((id) => renderProduct(id, bannerRow, true));
+          newArrivals.forEach((id) => renderProduct(id, arrivals));
+        });
+    </script>
+    <!-- Trigger Claude workflow test -->
+  </body>
 </html>

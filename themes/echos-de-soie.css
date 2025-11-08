@@ -3,19 +3,19 @@
    Place in /themes/echos-de-soie.css
 */
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Raleway:wght@300;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Raleway:wght@300;700&display=swap");
 
 :root {
-  --accent: #e0b973;          /* soft gold */
-  --accent-light: #f5dea0;    /* pale champagne */
-  --bg: #fffdf8;              /* ivory white */
-  --text: #2c2422;            /* warm dark brown-gray */
-  --header-stroke: #f0e2be;   /* silk trim */
+  --accent: #e0b973; /* soft gold */
+  --accent-light: #f5dea0; /* pale champagne */
+  --bg: #fffdf8; /* ivory white */
+  --text: #2c2422; /* warm dark brown-gray */
+  --header-stroke: #f0e2be; /* silk trim */
 }
 
 /* GLOBAL */
 body {
-  font-family: 'Raleway', sans-serif;
+  font-family: "Raleway", sans-serif;
   background-color: var(--bg);
   color: var(--text);
   margin: 0;
@@ -24,7 +24,7 @@ body {
 
 header {
   text-align: center;
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
   color: var(--accent);
   font-size: clamp(2.3rem, 6vw, 4.8rem);
   margin: 1.5rem 0 0.5rem;
@@ -34,7 +34,7 @@ header {
 
 .tagline {
   text-align: center;
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
   font-size: clamp(1.3rem, 4vw, 2.2rem);
   color: var(--accent-light);
   letter-spacing: 1.2px;
@@ -56,7 +56,7 @@ button {
   border-radius: 5px;
   padding: 8px 16px;
   cursor: pointer;
-  font-family: 'Raleway', sans-serif;
+  font-family: "Raleway", sans-serif;
   font-weight: 600;
   transition: background-color 0.3s ease;
 }
@@ -68,7 +68,7 @@ button:hover {
 /* SECTION TITLES */
 .section-heading {
   text-align: center;
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
   color: var(--accent);
   font-size: clamp(1.8rem, 4vw, 2.4rem);
   margin: 2rem 0 1rem;
@@ -90,7 +90,9 @@ button:hover {
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(218, 200, 180, 0.3);
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 .product-card:hover {
   transform: translateY(-4px);
@@ -124,6 +126,8 @@ footer {
 }
 
 /* RESPONSIVE */
-@media(max-width:700px) {
-  .product-card img { height: 240px; }
+@media (max-width: 700px) {
+  .product-card img {
+    height: 240px;
+  }
 }

@@ -10,7 +10,10 @@ try {
   const xml = fs.readFileSync(sitemapPath, "utf8");
   const now = new Date().toISOString();
 
-  const updated = xml.replace(/<lastmod>.*?<\/lastmod>/g, `<lastmod>${now}</lastmod>`);
+  const updated = xml.replace(
+    /<lastmod>.*?<\/lastmod>/g,
+    `<lastmod>${now}</lastmod>`,
+  );
   fs.writeFileSync(sitemapPath, updated, "utf8");
 
   console.log(`✅ sitemap.xml updated — ${now}`);
@@ -31,7 +34,10 @@ try {
   const xml = fs.readFileSync(sitemapPath, "utf8");
   const now = new Date().toISOString();
 
-  const updated = xml.replace(/<lastmod>.*?<\/lastmod>/g, `<lastmod>${now}</lastmod>`);
+  const updated = xml.replace(
+    /<lastmod>.*?<\/lastmod>/g,
+    `<lastmod>${now}</lastmod>`,
+  );
   fs.writeFileSync(sitemapPath, updated, "utf8");
 
   console.log(`✅ sitemap.xml updated — ${now}`);

@@ -13,14 +13,14 @@ app.use(express.static(__dirname));
 
 // ✅ Explicitly handle root and homepage.html
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "homepage.html"));
+  res.sendFile(path.join(__dirname, "homepage.html"));
 });
 
 app.get("/homepage.html", (req, res) => {
-    res.sendFile(path.join(__dirname, "homepage.html"));
+  res.sendFile(path.join(__dirname, "homepage.html"));
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`✅  Server running →  http://localhost:${PORT}/homepage.html`);
+  console.log(`✅  Server running →  http://localhost:${PORT}/homepage.html`);
 });
