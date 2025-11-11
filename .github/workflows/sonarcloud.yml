@@ -1,4 +1,4 @@
-name: SonarCloud Scan
+name: Prettier + SonarCloud Scan
 
 on:
   push:
@@ -8,25 +8,49 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write    # allows committing Prettier fixes
+
 jobs:
-  sonarcloud:
-    name: SonarCloud
+  build:
+    name: Auto‑format + SonarCloud
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ Checkout repository with full history
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Full history for better analysis
+          fetch-depth: 0
 
-      - name: Set up Node.js
+      # 2️⃣ Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
+      # 3️⃣ Install dependencies
       - name: Install dependencies
         run: npm ci
 
+      # 4️⃣ Run Prettier auto‑formatter
+      - name: Run Prettier format
+        run: npx prettier --write .
+
+      # 5️⃣ Commit and push changes from Prettier (if any)
+      - name: Commit Prettier changes
+        run: |
+          if [[ `git status --porcelain` ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add -A
+            git commit -m "chore: format code with Prettier"
+            git push
+          else
+            echo "No Prettier formatting changes to commit."
+          fi
+
+      # 6️⃣ Run SonarCloud scan
       - name: Run SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
         env:
