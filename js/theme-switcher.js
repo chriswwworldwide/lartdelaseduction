@@ -54,12 +54,6 @@ initThemeSwitcher();nano index.html
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>L’Art de la Séduction</title>
-
-  <!-- Theme stylesheet placeholder -->
-  <link rel="stylesheet" data-theme href="themes/default.css">
-
-  <!-- Theme switcher logic -->
   <script type="module" src="js/theme-switcher.js"></script>
 </head>
 <body>
@@ -88,3 +82,6 @@ initThemeSwitcher();nano index.html
   </footer>
 </body>
 </html>
+sed -i.bak '57,62d' js/theme-switcher.js
+sed -i.bak '57,62d' js/theme-switcher.js
+
