@@ -1,61 +1,42 @@
-name: Build, Lint, Format, and SonarCloud Analysis
+name: Lint + Format + SonarCloud
 
 on:
   push:
     branches:
       - main
   pull_request:
-    types: [opened, synchronize, reopened]
+    branches:
+      - main
 
 jobs:
   sonarcloud:
-    name: Lint + Format + SonarCloud
+    name: Run Linter + SonarCloud Scan
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout the repository
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Required for full SonarCloud analysis
+          fetch-depth: 0
 
-      # 2️⃣ Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      # 3️⃣ Install dependencies
       - name: Install dependencies
         run: npm ci
 
-      # 4️⃣ Run ESLint (detect code issues)
       - name: Run ESLint
-        run: |
-          npx eslint . || true  # Continue even if ESLint finds warnings/errors
+        run: npx eslint . || true
 
-      # 5️⃣ Format with Prettier (auto-format code, but don’t commit)
       - name: Run Prettier
         run: npx prettier --write .
 
-      # 6️⃣ Run SonarCloud analysis
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
+        with:
+          projectBaseDir: .
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Auto-provided by GitHub
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}    # Stored in repo Secrets
-        with:
-          args: >
-            -Dsonar.organization=chriswwworldwide
-            -Dsonar.projectKey=chriswwworldwide_lartdelaseduction
-            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
-            -Dsonar.sources=.
-            -Dsonar.exclusions=node_modules/**,coverage/**,dist/**
-
-      # 7️⃣ Upload SonarCloud report artifacts
-      - name: Upload SonarCloud report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: sonarcloud-report
-          path: .scannerwork/
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
