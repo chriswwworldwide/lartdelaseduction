@@ -1,3 +1,4 @@
+// Theme Switcher for L’Art‑de‑la‑Séduction
 const themes = [
   "default",
   "maison-de-seduction",
@@ -11,22 +12,12 @@ const themes = [
   "desir-noir",
   "desir-brulant",
   "la-tentatrice",
-  "les-peches-de-la-chair"
-];// Theme Switcher for L’Art‑de‑la‑Séduction
-
-const themes = [
-  "default",
-  "maison-de-seduction",
-  "amour-noir",
-  "rouge-seduction",
-  "seductiv-by-lart",
-  "nuit-etoilee"
+  "les-peches-de-la-chair",
+  "nuit-etoilee",
 ];
 
-// detect link placeholder
 const linkEl = document.querySelector('link[data-theme]');
 
-// apply requested theme
 export function setTheme(name) {
   if (!themes.includes(name)) name = "default";
   linkEl.href = `themes/${name}.css`;
@@ -34,11 +25,16 @@ export function setTheme(name) {
   document.documentElement.setAttribute("data-theme", name);
 }
 
-// initialize on page load
 export function initThemeSwitcher() {
   const saved = localStorage.getItem("activeTheme") || "default";
   setTheme(saved);
 
-  // optional dropdown element
   const select = document.getElementById("themeSelector");
   if (select) {
+    select.value = saved;
+    select.addEventListener("change", (e) => setTheme(e.target.value));
+  }
+} // closes initThemeSwitcher properly
+
+// auto-run if imported as module
+initThemeSwitcher();
