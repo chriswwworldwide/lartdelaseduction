@@ -8,18 +8,18 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  sonarqube:
-    name: SonarCloud Scan
+  sonarcloud:
+    name: SonarCloud Analysis
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout the repository
+      # 1️⃣ Checkout code
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Shallow clones should be disabled for accurate analysis
+          fetch-depth: 0
 
-      # 2️⃣ Set up Node.js (choose version matching your project)
+      # 2️⃣ Set up Node.js (adjust version if needed)
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -29,23 +29,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # 4️⃣ Run SonarCloud (SonarQube SaaS)
-      - name: Run SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@v6
+      # 4️⃣ SonarCloud Scan (💡 this *is* the Sonar snippet)
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v2
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Auto-provided by GitHub
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}   # You added this to Secrets
         with:
           args: >
             -Dsonar.organization=chriswwworldwide
-            -Dsonar.projectKey=chriswwworldwide_lartdelaseduction
+            -Dsonar.projectKey=lartdelaseduction
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
             -Dsonar.sources=.
-            -Dsonar.exclusions=node_modules/**,coverage/**
-
-      # 5️⃣ (Optional) Upload results as build artifact for reference
-      - name: Upload analysis report (optional)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: sonarcloud-report
-          path: .scannerwork/
+            -Dsonar.exclusions=node_modules/**,coverage/**,dist/**
