@@ -7,6 +7,11 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
+# 👇 Add this block so the workflow can push Prettier commits
+permissions:
+  contents: write
+  id-token: write
+
 jobs:
   sonarcloud:
     name: Lint + Format + SonarCloud
@@ -51,7 +56,7 @@ jobs:
             echo "No Prettier changes to commit."
           fi
 
-      # 7️⃣ Run SonarCloud analysis (the SonarCloud snippet)
+      # 7️⃣ Run SonarCloud analysis
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
         env:
@@ -65,7 +70,7 @@ jobs:
             -Dsonar.sources=.
             -Dsonar.exclusions=node_modules/**,coverage/**,dist/**
 
-      # 8️⃣ (Optional) Upload Sonar report artifacts for debugging
+      # 8️⃣ Upload SonarCloud report artifacts
       - name: Upload SonarCloud report
         if: always()
         uses: actions/upload-artifact@v4
