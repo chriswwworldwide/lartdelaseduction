@@ -1,12 +1,3 @@
-git add themes/rouge-seduction.css
-git commit -m "Add Rouge Séduction theme stylesheet"
-git push
-nano themes/seductiv-by-lart.css
-git add themes/seductiv-by-lart.css
-git commit -m "Add Seductiv by Lart theme stylesheet"
-git /* Rouge Séduction — theme stylesheet
-   Passionate scarlet + gold tones
-   Place in /themes/rouge-seduction.css
 */
 
 @import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Lato:wght@400;700&display=swap');
