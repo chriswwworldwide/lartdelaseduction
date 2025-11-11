@@ -34,7 +34,7 @@ jobs:
         run: |
           npx eslint . || true  # Continue even if ESLint finds warnings/errors
 
-      # 5️⃣ Format with Prettier (auto‑format code)
+      # 5️⃣ Format with Prettier (auto-format code)
       - name: Run Prettier
         run: npx prettier --write .
 
@@ -51,11 +51,11 @@ jobs:
             echo "No Prettier changes to commit."
           fi
 
-      # 7️⃣ Run SonarCloud analysis (the actual Sonar "snippet")
+      # 7️⃣ Run SonarCloud analysis (the SonarCloud snippet)
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Auto‑provided by GitHub
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Auto-provided by GitHub
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}    # Stored in repo Secrets
         with:
           args: >
