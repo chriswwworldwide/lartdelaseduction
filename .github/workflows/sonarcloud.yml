@@ -1,30 +1,26 @@
-name: Prettier + SonarCloud Scan
+name: Build and SonarCloud Analysis
 
 on:
   push:
     branches:
       - main
   pull_request:
-    branches:
-      - main
-
-permissions:
-  contents: write    # allows committing Prettier fixes
+    types: [opened, synchronize, reopened]
 
 jobs:
-  build:
-    name: Auto‑format + SonarCloud
+  sonarqube:
+    name: SonarCloud Scan
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout repository with full history
-      - name: Checkout code
+      # 1️⃣ Checkout the repository
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0 # Shallow clones should be disabled for accurate analysis
 
-      # 2️⃣ Set up Node.js
-      - name: Setup Node.js
+      # 2️⃣ Set up Node.js (choose version matching your project)
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
@@ -33,28 +29,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # 4️⃣ Run Prettier auto‑formatter
-      - name: Run Prettier format
-        run: npx prettier --write .
-
-      # 5️⃣ Commit and push changes from Prettier (if any)
-      - name: Commit Prettier changes
-        run: |
-          if [[ `git status --porcelain` ]]; then
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add -A
-            git commit -m "chore: format code with Prettier"
-            git push
-          else
-            echo "No Prettier formatting changes to commit."
-          fi
-
-      # 6️⃣ Run SonarCloud scan
+      # 4️⃣ Run SonarCloud (SonarQube SaaS)
       - name: Run SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v2
+        uses: SonarSource/sonarqube-scan-action@v6
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
@@ -62,3 +40,12 @@ jobs:
             -Dsonar.projectKey=chriswwworldwide_lartdelaseduction
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
             -Dsonar.sources=.
+            -Dsonar.exclusions=node_modules/**,coverage/**
+
+      # 5️⃣ (Optional) Upload results as build artifact for reference
+      - name: Upload analysis report (optional)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sonarcloud-report
+          path: .scannerwork/
