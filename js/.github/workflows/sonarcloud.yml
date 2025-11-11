@@ -1,0 +1,52 @@
+name: Build, Lint, Format, and SonarCloud Analysis
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  sonarcloud:
+    name: Lint + Format + SonarCloud
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Checkout your repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # 2️⃣ Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      # 3️⃣ Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # 4️⃣ Run ESLint (code quality)
+      - name: Run ESLint
+        run: npx eslint . || true
+
+      # 5️⃣ Run Prettier (formatting)
+      - name: Run Prettier
+        run: npx prettier --write .
+
+      # 6️⃣ Run SonarCloud scan
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.organization=chriswwworldwide
+            -Dsonar.projectKey=chriswwworldwide_lartdelaseduction
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+            -Dsonar.sources=.
+            -Dsonar.exclusions=node_modules/**,coverage/**,dist/**
