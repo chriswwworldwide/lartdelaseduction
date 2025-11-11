@@ -81,3 +81,4 @@ initThemeSwitcher();nano index.html
     © L’Art de la Séduction
   </footer>
 </body>
+// trigger rebuild Tue Nov 11 13:30:26 WIB 2025
