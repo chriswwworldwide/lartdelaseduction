@@ -1,4 +1,4 @@
-name: Build and SonarCloud Analysis
+name: Build, Lint, Format, and SonarCloud Analysis
 
 on:
   push:
@@ -9,17 +9,17 @@ on:
 
 jobs:
   sonarcloud:
-    name: SonarCloud Analysis
+    name: Lint + Format + SonarCloud
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout code
+      # 1️⃣ Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0  # Required for full SonarCloud analysis
 
-      # 2️⃣ Set up Node.js (adjust version if needed)
+      # 2️⃣ Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -29,16 +29,46 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # 4️⃣ SonarCloud Scan (💡 this *is* the Sonar snippet)
+      # 4️⃣ Run ESLint (detect code issues)
+      - name: Run ESLint
+        run: |
+          npx eslint . || true  # Continue even if ESLint finds warnings/errors
+
+      # 5️⃣ Format with Prettier (auto‑format code)
+      - name: Run Prettier
+        run: npx prettier --write .
+
+      # 6️⃣ (Optional) Commit Prettier changes back to GitHub
+      - name: Commit Prettier fixes
+        run: |
+          if [[ `git status --porcelain` ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add -A
+            git commit -m "chore: auto-format with Prettier"
+            git push
+          else
+            echo "No Prettier changes to commit."
+          fi
+
+      # 7️⃣ Run SonarCloud analysis (the actual Sonar "snippet")
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Auto-provided by GitHub
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}   # You added this to Secrets
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Auto‑provided by GitHub
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}    # Stored in repo Secrets
         with:
           args: >
             -Dsonar.organization=chriswwworldwide
-            -Dsonar.projectKey=lartdelaseduction
+            -Dsonar.projectKey=chriswwworldwide_lartdelaseduction
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
             -Dsonar.sources=.
             -Dsonar.exclusions=node_modules/**,coverage/**,dist/**
+
+      # 8️⃣ (Optional) Upload Sonar report artifacts for debugging
+      - name: Upload SonarCloud report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sonarcloud-report
+          path: .scannerwork/
