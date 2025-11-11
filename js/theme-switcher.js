@@ -81,7 +81,3 @@ initThemeSwitcher();nano index.html
     © L’Art de la Séduction
   </footer>
 </body>
-</html>
-sed -i.bak '57,62d' js/theme-switcher.js
-sed -i.bak '57,62d' js/theme-switcher.js
-
