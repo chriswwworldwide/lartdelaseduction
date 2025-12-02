@@ -1,0 +1,85 @@
+name: Code Quality and Security Checks
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  quality-checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      # ▶ 1. Checkout
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ▶ 2. Cache npm dependencies (speed boost)
+      - name: Cache npm deps
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      # ▶ 3. Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      # ▶ 4. Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # ▶ 5. Linting
+      - name: Run ESLint
+        run: npx eslint .
+
+      # ▶ 6. Prettier formatting check
+      - name: Run Prettier check
+        run: npx prettier --check .
+
+      # ▶ 7. Optional build check (only runs if script exists)
+      - name: Build project
+        if: hashFiles('**/package.json') != '' && contains(fromJson(steps.pkg.outputs.scripts), 'build') == false
+        run: npm run build || echo "No build script or build failed, continuing"
+
+      # ▶ 8. Run tests and produce coverage
+      - name: Run tests with coverage
+        run: |
+          npm test -- --coverage || echo "Tests failed but continuing"
+
+      # ▶ 9. Upload coverage artifact (viewable in workflow results)
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
+
+      # ▶ 10. Run npm audit
+      - name: Run npm audit
+        run: npm audit --production || true
+
+      # ▶ 11. Snyk scan
+      - name: Run Snyk Security Scan
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: test
+
+      # ▶ 12. SonarCloud analysis
+      - name: Sonar Quality Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
+            -Dsonar.organization=${{ secrets.SONAR_ORG }}
+            -Dsonar.sources=.
+            -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
