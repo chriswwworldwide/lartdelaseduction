@@ -1,4 +1,4 @@
-name: Code Quality and Security Checks
+name: Lint, Test, and Security + SonarCloud Analysis
 
 on:
   push:
@@ -9,6 +9,7 @@ on:
 
 jobs:
   quality-checks:
+    name: Code Quality, Security, and Coverage
     runs-on: ubuntu-latest
 
     steps:
@@ -17,7 +18,7 @@ jobs:
         uses: actions/checkout@v4
 
       # ▶ 2. Cache npm dependencies
-      - name: Cache npm deps
+      - name: Cache npm dependencies
         uses: actions/cache@v4
         with:
           path: ~/.npm
@@ -51,7 +52,7 @@ jobs:
       - name: Run tests with coverage
         run: npm test -- --coverage || echo "Tests failed but continuing"
 
-      # ▶ 9. Upload coverage artifact
+      # ▶ 9. Upload coverage report
       - name: Upload coverage report
         if: always()
         uses: actions/upload-artifact@v4
@@ -63,7 +64,7 @@ jobs:
       - name: Run npm audit
         run: npm audit --production || true
 
-      # ▶ 11. Snyk scan
+      # ▶ 11. Snyk Security Scan
       - name: Run Snyk Security Scan
         uses: snyk/actions/node@master
         env:
@@ -71,8 +72,8 @@ jobs:
         with:
           command: test
 
-      # ▶ 12. SonarCloud analysis
-      - name: SonarCloud Scan
+      # ▶ 12. SonarCloud Analysis
+      - name: Run SonarCloud Analysis
         uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
